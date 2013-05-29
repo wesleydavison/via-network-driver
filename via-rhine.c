@@ -483,7 +483,8 @@ struct rhine_private {
 
 
 struct timespec ts_old,ts_new,test_of_time;
-static int first_packet = 1;
+static int max_pkts = 10;
+static int count_pkts = 0;
 
 static int  mdio_read(struct net_device *dev, int phy_id, int location);
 static void mdio_write(struct net_device *dev, int phy_id, int location, int value);
@@ -1833,10 +1834,10 @@ static int rhine_rx(struct net_device *dev, int limit)
 {
     /* collecting time of arrival */
     getnstimeofday(&ts_new);
-    if(first_packet){
-        printk(" **** receiving first packet ***\n");
+    count_pkts++;
+    if(count_pkts <= max_pkts){
+        printk(" **** receiving packet ***\n");
     }
-    first_packet = 0;
 
 	struct rhine_private *rp = netdev_priv(dev);
 	int count;
