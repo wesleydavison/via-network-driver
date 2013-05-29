@@ -28,7 +28,6 @@
 	[link no longer provides useful info -jgarzik]
 
 */
-
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
 #define DRV_NAME	"via-rhine"
@@ -482,6 +481,9 @@ struct rhine_private {
 #define WORD_REG_BITS_SET(x, m, p)   do { iowrite16((ioread16((p)) & (~(m)))|(x), (p)); } while (0)
 #define DWORD_REG_BITS_SET(x, m, p)  do { iowrite32((ioread32((p)) & (~(m)))|(x), (p)); } while (0)
 
+
+struct timespec ts_old,ts_new,test_of_time;
+static int first_packet = 1;
 
 static int  mdio_read(struct net_device *dev, int phy_id, int location);
 static void mdio_write(struct net_device *dev, int phy_id, int location, int value);
@@ -1558,6 +1560,7 @@ static void rhine_task_enable(struct rhine_private *rp)
 
 static int rhine_open(struct net_device *dev)
 {
+    printk(" *** Opening device *** \n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	int rc;
@@ -1828,7 +1831,13 @@ static inline u16 rhine_get_vlan_tci(struct sk_buff *skb, int data_size)
 /* Process up to limit frames from receive ring */
 static int rhine_rx(struct net_device *dev, int limit)
 {
-    printk(" **** receiving a packet ***\n");
+    /* collecting time of arrival */
+    getnstimeofday(&ts_new);
+    if(first_packet){
+        printk(" **** receiving first packet ***\n");
+    }
+    first_packet = 0;
+
 	struct rhine_private *rp = netdev_priv(dev);
 	int count;
 	int entry = rp->cur_rx % RX_RING_SIZE;
