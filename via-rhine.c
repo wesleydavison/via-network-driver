@@ -1828,6 +1828,7 @@ static inline u16 rhine_get_vlan_tci(struct sk_buff *skb, int data_size)
 /* Process up to limit frames from receive ring */
 static int rhine_rx(struct net_device *dev, int limit)
 {
+    printk(" **** receiving a packet ***\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	int count;
 	int entry = rp->cur_rx % RX_RING_SIZE;
