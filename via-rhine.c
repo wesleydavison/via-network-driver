@@ -508,7 +508,6 @@ static void rhine_restart_tx(struct net_device *dev);
 
 static void rhine_wait_bit(struct rhine_private *rp, u8 reg, u8 mask, bool low)
 {
-    printk("wait_bit\n");
 	void __iomem *ioaddr = rp->base;
 	int i;
 
@@ -527,19 +526,16 @@ static void rhine_wait_bit(struct rhine_private *rp, u8 reg, u8 mask, bool low)
 
 static void rhine_wait_bit_high(struct rhine_private *rp, u8 reg, u8 mask)
 {
-    printk("wait_bit_high\n");
 	rhine_wait_bit(rp, reg, mask, false);
 }
 
 static void rhine_wait_bit_low(struct rhine_private *rp, u8 reg, u8 mask)
 {
-    printk("wait_bit_low\n");
 	rhine_wait_bit(rp, reg, mask, true);
 }
 
 static u32 rhine_get_events(struct rhine_private *rp)
 {
-    printk("get_events\n");
 	void __iomem *ioaddr = rp->base;
 	u32 intr_status;
 
@@ -552,7 +548,6 @@ static u32 rhine_get_events(struct rhine_private *rp)
 
 static void rhine_ack_events(struct rhine_private *rp, u32 mask)
 {
-    printk("ack_events\n");
 	void __iomem *ioaddr = rp->base;
 
 	if (rp->quirks & rqStatusWBRace)
@@ -567,7 +562,6 @@ static void rhine_ack_events(struct rhine_private *rp, u32 mask)
  */
 static void rhine_power_init(struct net_device *dev)
 {
-    printk("power_init\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	u16 wolstat;
@@ -624,7 +618,6 @@ static void rhine_power_init(struct net_device *dev)
 
 static void rhine_chip_reset(struct net_device *dev)
 {
-    printk("chip_reset\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	u8 cmd1;
@@ -651,7 +644,6 @@ static void rhine_chip_reset(struct net_device *dev)
 #ifdef USE_MMIO
 static void enable_mmio(long pioaddr, u32 quirks)
 {
-    printk("enable_mmio\n");
 	int n;
 	if (quirks & rqRhineI) {
 		/* More recent docs say that this bit is reserved ... */
@@ -670,7 +662,6 @@ static void enable_mmio(long pioaddr, u32 quirks)
  */
 static void __devinit rhine_reload_eeprom(long pioaddr, struct net_device *dev)
 {
-    printk("reload_eeprom\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	int i;
@@ -701,7 +692,6 @@ static void __devinit rhine_reload_eeprom(long pioaddr, struct net_device *dev)
 #ifdef CONFIG_NET_POLL_CONTROLLER
 static void rhine_poll(struct net_device *dev)
 {
-    printk("poll\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	const int irq = rp->pdev->irq;
 
@@ -713,7 +703,6 @@ static void rhine_poll(struct net_device *dev)
 
 static void rhine_kick_tx_threshold(struct rhine_private *rp)
 {
-    printk("kick_tx_threashold\n");
 	if (rp->tx_thresh < 0xe0) {
 		void __iomem *ioaddr = rp->base;
 
@@ -724,7 +713,6 @@ static void rhine_kick_tx_threshold(struct rhine_private *rp)
 
 static void rhine_tx_err(struct rhine_private *rp, u32 status)
 {
-    printk("tx_err\n");
 	struct net_device *dev = rp->dev;
 
 	if (status & IntrTxAborted) {
@@ -753,7 +741,6 @@ static void rhine_tx_err(struct rhine_private *rp, u32 status)
 
 static void rhine_update_rx_crc_and_missed_errord(struct rhine_private *rp)
 {
-    printk("update_rx_crc_and_missed_errord\n");
 	void __iomem *ioaddr = rp->base;
 	struct net_device_stats *stats = &rp->dev->stats;
 
@@ -793,7 +780,6 @@ static void rhine_update_rx_crc_and_missed_errord(struct rhine_private *rp)
 
 static int rhine_napipoll(struct napi_struct *napi, int budget)
 {
-    printk("napipoll\n");
 	struct rhine_private *rp = container_of(napi, struct rhine_private, napi);
 	struct net_device *dev = rp->dev;
 	void __iomem *ioaddr = rp->base;
@@ -842,7 +828,6 @@ static int rhine_napipoll(struct napi_struct *napi, int budget)
 
 static void __devinit rhine_hw_init(struct net_device *dev, long pioaddr)
 {
-    printk("hw_init\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	/* Reset the chip to erase previous misconfiguration. */
@@ -877,7 +862,6 @@ static const struct net_device_ops rhine_netdev_ops = {
 static int __devinit rhine_init_one(struct pci_dev *pdev,
 				    const struct pci_device_id *ent)
 {
-    printk("init_one\n");
 	struct net_device *dev;
 	struct rhine_private *rp;
 	int i, rc;
@@ -1096,7 +1080,6 @@ err_out:
 
 static int alloc_ring(struct net_device* dev)
 {
-    printk("alloc_ring\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void *ring;
 	dma_addr_t ring_dma;
@@ -1132,7 +1115,6 @@ static int alloc_ring(struct net_device* dev)
 
 static void free_ring(struct net_device* dev)
 {
-    printk("free_ring\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	pci_free_consistent(rp->pdev,
@@ -1151,7 +1133,6 @@ static void free_ring(struct net_device* dev)
 
 static void alloc_rbufs(struct net_device *dev)
 {
-    printk("alloc_rbufs\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	dma_addr_t next;
 	int i;
@@ -1192,7 +1173,6 @@ static void alloc_rbufs(struct net_device *dev)
 
 static void free_rbufs(struct net_device* dev)
 {
-    printk("free_rbufs\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	int i;
 
@@ -1212,7 +1192,6 @@ static void free_rbufs(struct net_device* dev)
 
 static void alloc_tbufs(struct net_device* dev)
 {
-    printk("alloc_tbufs\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	dma_addr_t next;
 	int i;
@@ -1234,7 +1213,6 @@ static void alloc_tbufs(struct net_device* dev)
 
 static void free_tbufs(struct net_device* dev)
 {
-    printk("free_tbufs\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	int i;
 
@@ -1258,7 +1236,6 @@ static void free_tbufs(struct net_device* dev)
 
 static void rhine_check_media(struct net_device *dev, unsigned int init_media)
 {
-    printk("check_media\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 
@@ -1278,7 +1255,6 @@ static void rhine_check_media(struct net_device *dev, unsigned int init_media)
 /* Called after status of force_media possibly changed */
 static void rhine_set_carrier(struct mii_if_info *mii)
 {
-    printk("set_carrier\n");
 	struct net_device *dev = mii->dev;
 	struct rhine_private *rp = netdev_priv(dev);
 
@@ -1303,7 +1279,6 @@ static void rhine_set_carrier(struct mii_if_info *mii)
  */
 static void rhine_set_cam(void __iomem *ioaddr, int idx, u8 *addr)
 {
-    printk("set_cam\n");
 	int i;
 
 	iowrite8(CAMC_CAMEN, ioaddr + CamCon);
@@ -1335,7 +1310,6 @@ static void rhine_set_cam(void __iomem *ioaddr, int idx, u8 *addr)
  */
 static void rhine_set_vlan_cam(void __iomem *ioaddr, int idx, u8 *addr)
 {
-    printk("set_vlan_cam\n");
 	iowrite8(CAMC_CAMEN | CAMC_VCAMSL, ioaddr + CamCon);
 	wmb();
 
@@ -1363,7 +1337,6 @@ static void rhine_set_vlan_cam(void __iomem *ioaddr, int idx, u8 *addr)
  */
 static void rhine_set_cam_mask(void __iomem *ioaddr, u32 mask)
 {
-    printk("set_cam_mask\n");
 	iowrite8(CAMC_CAMEN, ioaddr + CamCon);
 	wmb();
 
@@ -1383,7 +1356,6 @@ static void rhine_set_cam_mask(void __iomem *ioaddr, u32 mask)
  */
 static void rhine_set_vlan_cam_mask(void __iomem *ioaddr, u32 mask)
 {
-    printk("set_vlan_cam_mask\n");
 	iowrite8(CAMC_CAMEN | CAMC_VCAMSL, ioaddr + CamCon);
 	wmb();
 
@@ -1403,7 +1375,6 @@ static void rhine_set_vlan_cam_mask(void __iomem *ioaddr, u32 mask)
  */
 static void rhine_init_cam_filter(struct net_device *dev)
 {
-    printk("init_cam_filter\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 
@@ -1424,7 +1395,6 @@ static void rhine_init_cam_filter(struct net_device *dev)
  */
 static void rhine_update_vcam(struct net_device *dev)
 {
-    printk("update_vcam\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	u16 vid;
@@ -1442,7 +1412,6 @@ static void rhine_update_vcam(struct net_device *dev)
 
 static int rhine_vlan_rx_add_vid(struct net_device *dev, unsigned short vid)
 {
-    printk("vlan_rx_add_vid\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	spin_lock_bh(&rp->lock);
@@ -1454,7 +1423,6 @@ static int rhine_vlan_rx_add_vid(struct net_device *dev, unsigned short vid)
 
 static int rhine_vlan_rx_kill_vid(struct net_device *dev, unsigned short vid)
 {
-    printk("vlan_rx_kill_vid\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	spin_lock_bh(&rp->lock);
@@ -1466,7 +1434,6 @@ static int rhine_vlan_rx_kill_vid(struct net_device *dev, unsigned short vid)
 
 static void init_registers(struct net_device *dev)
 {
-    printk("init_registers\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	int i;
@@ -1501,7 +1468,6 @@ static void init_registers(struct net_device *dev)
 /* Enable MII link status auto-polling (required for IntrLinkChange) */
 static void rhine_enable_linkmon(struct rhine_private *rp)
 {
-    printk("enable_linkmon\n");
 	void __iomem *ioaddr = rp->base;
 
 	iowrite8(0, ioaddr + MIICmd);
@@ -1516,7 +1482,6 @@ static void rhine_enable_linkmon(struct rhine_private *rp)
 /* Disable MII link status auto-polling (required for MDIO access) */
 static void rhine_disable_linkmon(struct rhine_private *rp)
 {
-    printk("disable_linkmon\n");
 	void __iomem *ioaddr = rp->base;
 
 	iowrite8(0, ioaddr + MIICmd);
@@ -1543,7 +1508,6 @@ static void rhine_disable_linkmon(struct rhine_private *rp)
 
 static int mdio_read(struct net_device *dev, int phy_id, int regnum)
 {
-    printk("mdio_read\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	int result;
@@ -1563,7 +1527,6 @@ static int mdio_read(struct net_device *dev, int phy_id, int regnum)
 
 static void mdio_write(struct net_device *dev, int phy_id, int regnum, int value)
 {
-    printk("mdio_write\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 
@@ -1581,7 +1544,6 @@ static void mdio_write(struct net_device *dev, int phy_id, int regnum, int value
 
 static void rhine_task_disable(struct rhine_private *rp)
 {
-    printk("task_disable\n");
 	mutex_lock(&rp->task_lock);
 	rp->task_enable = false;
 	mutex_unlock(&rp->task_lock);
@@ -1592,7 +1554,6 @@ static void rhine_task_disable(struct rhine_private *rp)
 
 static void rhine_task_enable(struct rhine_private *rp)
 {
-    printk("task_enable\n");
 	mutex_lock(&rp->task_lock);
 	rp->task_enable = true;
 	mutex_unlock(&rp->task_lock);
@@ -1600,7 +1561,6 @@ static void rhine_task_enable(struct rhine_private *rp)
 
 static int rhine_open(struct net_device *dev)
 {
-    printk("open\n");
     printk(" *** Opening device *** \n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
@@ -1635,7 +1595,6 @@ static int rhine_open(struct net_device *dev)
 
 static void rhine_reset_task(struct work_struct *work)
 {
-    printk("reset_task\n");
 	struct rhine_private *rp = container_of(work, struct rhine_private,
 						reset_task);
 	struct net_device *dev = rp->dev;
@@ -1670,7 +1629,6 @@ out_unlock:
 
 static void rhine_tx_timeout(struct net_device *dev)
 {
-    printk("tx_timeout\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 
@@ -1684,7 +1642,6 @@ static void rhine_tx_timeout(struct net_device *dev)
 static netdev_tx_t rhine_start_tx(struct sk_buff *skb,
 				  struct net_device *dev)
 {
-    printk("start_tx\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	unsigned entry;
@@ -1767,7 +1724,6 @@ static netdev_tx_t rhine_start_tx(struct sk_buff *skb,
 
 static void rhine_irq_disable(struct rhine_private *rp)
 {
-    printk("irq_disable\n");
 	iowrite16(0x0000, rp->base + IntrEnable);
 	mmiowb();
 }
@@ -1776,7 +1732,19 @@ static void rhine_irq_disable(struct rhine_private *rp)
    after the Tx thread. */
 static irqreturn_t rhine_interrupt(int irq, void *dev_instance)
 {
-    printk("interrupt\n");
+    /* collecting time of arrival */
+    getnstimeofday(&ts_new);
+    count_pkts++;
+    
+    test_of_time = timespec_sub(ts_new,ts_old);
+    
+    if(count_pkts <= max_pkts){
+        printk(" **** packet %d - iat: %lu seconds and %lu nanoseconds ***\n",count_pkts, test_of_time.tv_sec,test_of_time.tv_nsec);
+    }
+    ts_old.tv_sec = ts_new.tv_sec;
+    ts_old.tv_nsec = ts_new.tv_nsec;
+    
+
 	struct net_device *dev = dev_instance;
 	struct rhine_private *rp = netdev_priv(dev);
 	u32 status;
@@ -1805,7 +1773,6 @@ static irqreturn_t rhine_interrupt(int irq, void *dev_instance)
    for clarity. */
 static void rhine_tx(struct net_device *dev)
 {
-    printk("tx\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	int txstatus = 0, entry = rp->dirty_tx % TX_RING_SIZE;
 
@@ -1871,7 +1838,6 @@ static void rhine_tx(struct net_device *dev)
  */
 static inline u16 rhine_get_vlan_tci(struct sk_buff *skb, int data_size)
 {
-    printk("get_vlan_tci\n");
 	u8 *trailer = (u8 *)skb->data + ((data_size + 3) & ~3) + 2;
 	return be16_to_cpup((__be16 *)trailer);
 }
@@ -1879,20 +1845,6 @@ static inline u16 rhine_get_vlan_tci(struct sk_buff *skb, int data_size)
 /* Process up to limit frames from receive ring */
 static int rhine_rx(struct net_device *dev, int limit)
 {
-    printk("rx\n");
-    /* collecting time of arrival */
-    getnstimeofday(&ts_new);
-    count_pkts++;
-    
-    test_of_time = timespec_sub(ts_new,ts_old);
-    
-    if(count_pkts <= max_pkts){
-        printk(" **** iat: %lu seconds and %lu nanoseconds ***\n", test_of_time.tv_sec,test_of_time.tv_nsec);
-    }
-    ts_old.tv_sec = ts_new.tv_sec;
-    ts_old.tv_nsec = ts_new.tv_nsec;
-    
-
 	struct rhine_private *rp = netdev_priv(dev);
 	int count;
 	int entry = rp->cur_rx % RX_RING_SIZE;
@@ -2023,7 +1975,6 @@ static void rhine_restart_tx(struct net_device *dev) {
 	void __iomem *ioaddr = rp->base;
 	int entry = rp->dirty_tx % TX_RING_SIZE;
 	u32 intr_status;
-    printk("restart_rx\n");
 
 	/*
 	 * If new errors occurred, we need to sort them out before doing Tx.
@@ -2058,7 +2009,6 @@ static void rhine_restart_tx(struct net_device *dev) {
 
 static void rhine_slow_event_task(struct work_struct *work)
 {
-    printk("slow_event_task\n");
 	struct rhine_private *rp =
 		container_of(work, struct rhine_private, slow_event_task);
 	struct net_device *dev = rp->dev;
@@ -2090,7 +2040,6 @@ out_unlock:
 
 static struct net_device_stats *rhine_get_stats(struct net_device *dev)
 {
-    printk("get_stats\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	spin_lock_bh(&rp->lock);
@@ -2102,7 +2051,6 @@ static struct net_device_stats *rhine_get_stats(struct net_device *dev)
 
 static void rhine_set_rx_mode(struct net_device *dev)
 {
-    printk("set_rx_mode\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 	u32 mc_filter[2];	/* Multicast hash filter */
@@ -2151,7 +2099,6 @@ static void rhine_set_rx_mode(struct net_device *dev)
 
 static void netdev_get_drvinfo(struct net_device *dev, struct ethtool_drvinfo *info)
 {
-    printk("get_drvinfo\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	strlcpy(info->driver, DRV_NAME, sizeof(info->driver));
@@ -2161,7 +2108,6 @@ static void netdev_get_drvinfo(struct net_device *dev, struct ethtool_drvinfo *i
 
 static int netdev_get_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 {
-    printk("get_settings\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	int rc;
 
@@ -2174,7 +2120,6 @@ static int netdev_get_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 
 static int netdev_set_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 {
-    printk("set_settings\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	int rc;
 
@@ -2188,7 +2133,6 @@ static int netdev_set_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 
 static int netdev_nway_reset(struct net_device *dev)
 {
-    printk("nway_reset\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	return mii_nway_restart(&rp->mii_if);
@@ -2196,7 +2140,6 @@ static int netdev_nway_reset(struct net_device *dev)
 
 static u32 netdev_get_link(struct net_device *dev)
 {
-    printk("get_link\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	return mii_link_ok(&rp->mii_if);
@@ -2204,7 +2147,6 @@ static u32 netdev_get_link(struct net_device *dev)
 
 static u32 netdev_get_msglevel(struct net_device *dev)
 {
-    printk("get_msglevel\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	return rp->msg_enable;
@@ -2212,7 +2154,6 @@ static u32 netdev_get_msglevel(struct net_device *dev)
 
 static void netdev_set_msglevel(struct net_device *dev, u32 value)
 {
-    printk("set_msglevel\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	rp->msg_enable = value;
@@ -2220,7 +2161,6 @@ static void netdev_set_msglevel(struct net_device *dev, u32 value)
 
 static void rhine_get_wol(struct net_device *dev, struct ethtool_wolinfo *wol)
 {
-    printk("get_wol\n");
 	struct rhine_private *rp = netdev_priv(dev);
 
 	if (!(rp->quirks & rqWOL))
@@ -2235,7 +2175,6 @@ static void rhine_get_wol(struct net_device *dev, struct ethtool_wolinfo *wol)
 
 static int rhine_set_wol(struct net_device *dev, struct ethtool_wolinfo *wol)
 {
-    printk("set_wol\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	u32 support = WAKE_PHY | WAKE_MAGIC |
 		      WAKE_UCAST | WAKE_MCAST | WAKE_BCAST;	/* Untested */
@@ -2267,7 +2206,6 @@ static const struct ethtool_ops netdev_ethtool_ops = {
 
 static int netdev_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
 {
-    printk("ioctl\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	int rc;
 
@@ -2284,7 +2222,6 @@ static int netdev_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
 
 static int rhine_close(struct net_device *dev)
 {
-    printk("close\n");
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
 
@@ -2314,7 +2251,6 @@ static int rhine_close(struct net_device *dev)
 
 static void __devexit rhine_remove_one(struct pci_dev *pdev)
 {
-    printk("remove_one\n");
 	struct net_device *dev = pci_get_drvdata(pdev);
 	struct rhine_private *rp = netdev_priv(dev);
 
@@ -2330,7 +2266,6 @@ static void __devexit rhine_remove_one(struct pci_dev *pdev)
 
 static void rhine_shutdown (struct pci_dev *pdev)
 {
-    printk("shutdown\n");
 	struct net_device *dev = pci_get_drvdata(pdev);
 	struct rhine_private *rp = netdev_priv(dev);
 	void __iomem *ioaddr = rp->base;
@@ -2383,7 +2318,6 @@ static void rhine_shutdown (struct pci_dev *pdev)
 #ifdef CONFIG_PM_SLEEP
 static int rhine_suspend(struct device *device)
 {
-    printk("suspend\n");
 	struct pci_dev *pdev = to_pci_dev(device);
 	struct net_device *dev = pci_get_drvdata(pdev);
 	struct rhine_private *rp = netdev_priv(dev);
@@ -2404,7 +2338,6 @@ static int rhine_suspend(struct device *device)
 
 static int rhine_resume(struct device *device)
 {
-    printk("resume\n");
 	struct pci_dev *pdev = to_pci_dev(device);
 	struct net_device *dev = pci_get_drvdata(pdev);
 	struct rhine_private *rp = netdev_priv(dev);
@@ -2468,7 +2401,6 @@ static struct dmi_system_id __initdata rhine_dmi_table[] = {
 
 static int __init rhine_init(void)
 {
-    printk("init");
 /* when a module, this is printed whether or not devices are found in probe */
 #ifdef MODULE
 	pr_info("%s\n", version);
@@ -2487,7 +2419,6 @@ static int __init rhine_init(void)
 
 static void __exit rhine_cleanup(void)
 {
-    printk("cleanup\n");
 	pci_unregister_driver(&rhine_driver);
 }
 
